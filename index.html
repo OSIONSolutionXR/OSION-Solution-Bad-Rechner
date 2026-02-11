@@ -2,899 +2,942 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bad-Budgetrechner | Powered by OSION Solution XR</title>
-
-  <!--
-    ASSETS (im Repo, gleicher Ordner wie index.html):
-    - MD085.png            (dein Header-Hintergrund, bevorzugt)
-    - osion-header.png     (Fallback, wenn MD085.png nicht existiert)
-    - MGU-0015 Logo OSION Solution XR.png (optional: Logo links oben, falls du es separat nutzen willst)
-  -->
 
   <style>
     :root{
-      --bg0:#050506;
-      --bg1:#0b0b0f;
-      --card: rgba(20, 20, 24, 0.62);
-      --card2: rgba(14, 14, 18, 0.55);
-      --stroke: rgba(255,255,255,0.10);
-      --stroke2: rgba(255,255,255,0.14);
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.68);
-      --muted2: rgba(255,255,255,0.52);
-      --accentA:#a100ff;
-      --accentB:#ff0038;
-      --accentGlow: rgba(255,0,56,0.22);
-      --accentGlow2: rgba(161,0,255,0.18);
+      --bg0:#050507;
+      --bg1:#0b0610;
+      --card:#111114cc;
+      --panel:#0f0f12cc;
+      --stroke:#ffffff1f;
+      --stroke2:#ffffff14;
+      --text:#f3f4f6;
+      --muted:#c7c9cf;
+      --muted2:#a7aab3;
+      --brand1:#7b1bff;
+      --brand2:#ff2a55;
+      --brand3:#ff4d2a;
+      --good:#35d07f;
+      --shadow: 0 24px 80px rgba(0,0,0,.55);
+      --shadow2: 0 12px 40px rgba(0,0,0,.45);
       --radius: 22px;
-      --radius2: 18px;
+      --radius2: 16px;
+      --ring: 0 0 0 2px rgba(255,42,85,.35), 0 0 0 6px rgba(123,27,255,.12);
+      --ring2: 0 0 0 2px rgba(255,255,255,.18);
+      --maxw: 1180px;
     }
 
-    *{ box-sizing:border-box; }
+    /* Hintergrund */
     body{
       margin:0;
-      min-height:100vh;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
-      color: var(--text);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       background:
-        radial-gradient(1100px 600px at 15% 15%, rgba(161,0,255,0.18), transparent 60%),
-        radial-gradient(900px 520px at 88% 18%, rgba(255,0,56,0.16), transparent 55%),
-        radial-gradient(900px 700px at 50% 95%, rgba(255,255,255,0.06), transparent 65%),
+        radial-gradient(900px 600px at 12% 12%, rgba(123,27,255,.20), transparent 55%),
+        radial-gradient(900px 700px at 88% 18%, rgba(255,42,85,.18), transparent 55%),
+        radial-gradient(900px 700px at 50% 85%, rgba(255,77,42,.12), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 40px 18px;
+      padding:36px 18px;
     }
 
+    .app{
+      width:min(var(--maxw), 100%);
+      filter: drop-shadow(0 28px 110px rgba(0,0,0,.6));
+    }
+
+    /* Rahmen / Glas */
     .shell{
-      width: min(1240px, 96vw); /* Größer als vorher */
-    }
-
-    .glass{
-      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      border-radius: calc(var(--radius) + 8px);
       overflow:hidden;
-      box-shadow:
-        0 18px 70px rgba(0,0,0,0.55),
-        0 0 0 1px rgba(255,255,255,0.06) inset;
-      background: rgba(255,255,255,0.02);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
     }
 
-    /* HEADER: größer + Logo vollständig sichtbar */
+    /* Header: soll die ganze Fläche ausfüllen */
     .hero{
       position:relative;
-      height: 270px; /* höher, damit das Logo sicher komplett sichtbar ist */
+      padding: 26px 26px 22px 26px;
+      min-height: 220px; /* <- mehr Höhe, damit das Hintergrundlogo vollständig sichtbar ist */
       display:flex;
       align-items:flex-end;
-      padding: 22px 26px 18px 26px;
-      background-color: rgba(0,0,0,0.35);
-
-      /* Erst MD085.png probieren, sonst Fallback */
-      background-image:
-        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.70)),
-        url('MD085.png'),
-        url('osion-header.png');
-      background-repeat: no-repeat, no-repeat, no-repeat;
-
-      /* WICHTIG: contain = komplett sichtbar */
-      background-size: cover, contain, contain;
-
-      /* Logo zentriert + leicht nach oben, damit es nicht abgeschnitten wirkt */
-      background-position: center, center 16px, center 16px;
-    }
-
-    .heroTopRow{
-      position:absolute;
-      top: 16px;
-      left: 18px;
-      right: 18px;
-      display:flex;
-      align-items:center;
       justify-content:space-between;
-      gap: 12px;
+      gap:22px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55)),
+        radial-gradient(800px 240px at 15% 0%, rgba(123,27,255,.20), transparent 70%),
+        radial-gradient(800px 260px at 90% 15%, rgba(255,42,85,.18), transparent 70%),
+        linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.2));
+    }
+
+    /* Hintergrundbild (OSION) im Header */
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: var(--hero-bg);
+      background-repeat:no-repeat;
+      background-position: center top;
+      background-size: contain; /* <- Logo komplett sichtbar */
+      opacity:.30;            /* <- sichtbar, aber nicht übertrieben */
+      transform: translateY(-10px) scale(.96); /* <- minimal kleiner, damit nichts abgeschnitten wird */
       pointer-events:none;
     }
 
-    .brandPill{
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.55)),
+        linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.22));
       pointer-events:none;
+    }
+
+    .hero > *{ position:relative; z-index:1; }
+
+    .brand{
       display:flex;
       align-items:center;
-      gap: 10px;
-      padding: 10px 12px;
+      gap:14px;
+      padding: 14px 16px;
       border-radius: 999px;
-      background: rgba(0,0,0,0.38);
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      background: rgba(0,0,0,.30);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
     }
 
-    .brandMark{
-      width: 28px;
-      height: 28px;
-      border-radius: 9px;
-      display:grid;
-      place-items:center;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      overflow:hidden;
+    .brand img{
+      width:42px;
+      height:42px;
+      object-fit:contain;
+      border-radius: 10px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      padding:6px;
     }
 
-    .brandMark img{
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display:block;
-      padding: 4px;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
-    }
-
-    .brandText{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-      gap: 2px;
-    }
-    .brandText small{
-      letter-spacing: 0.12em;
+    .brand .kicker{
+      font-size: 12px;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.72);
-      font-weight: 600;
-      font-size: 11px;
-    }
-    .brandText span{
-      font-weight: 820;
-      font-size: 14px;
-      color: rgba(255,255,255,0.95);
+      color: rgba(255,255,255,.75);
+      line-height:1.2;
+      margin-bottom: 3px;
+      font-weight:700;
+      white-space:nowrap;
     }
 
-    .badge{
-      pointer-events:none;
+    .brand .title{
+      font-size: 22px;
+      line-height: 1.08;
+      font-weight: 900;
+      margin:0;
+      white-space:nowrap;
+    }
+
+    .pill{
       display:flex;
       align-items:center;
-      gap: 10px;
+      gap:10px;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(0,0,0,0.40);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    }
-    .dot{
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,0,56,0.95);
-      box-shadow: 0 0 0 4px rgba(255,0,56,0.18);
-    }
-    .badge span{
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: rgba(255,255,255,0.92);
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.28);
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.9);
+      font-weight:800;
       font-size: 13px;
+      box-shadow: var(--shadow2);
+      white-space:nowrap;
+    }
+    .pill .dot{
+      width:10px; height:10px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #ff9ab0, #ff2a55);
+      box-shadow: 0 0 0 4px rgba(255,42,85,.14);
     }
 
-    .heroMain{
-      width: 100%;
+    .main{
+      padding: 18px 22px 22px 22px;
+      background: rgba(0,0,0,.12);
+    }
+
+    .topline{
       display:flex;
-      align-items:flex-end;
+      align-items:center;
       justify-content:space-between;
-      gap: 18px;
+      gap:16px;
+      padding: 10px 6px 6px 6px;
     }
 
-    .heroTitleBlock{
-      display:flex;
-      flex-direction:column;
-      gap: 10px;
-      max-width: 760px;
-    }
-
-    .h1{
-      margin:0;
-      font-size: 34px; /* größer */
-      letter-spacing: -0.02em;
-      line-height:1.05;
-      text-shadow: 0 14px 40px rgba(0,0,0,0.55);
-    }
-
-    .sub{
-      margin:0;
-      color: rgba(255,255,255,0.78);
-      font-size: 15px;
+    .hint{
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
     }
 
     .progressWrap{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-end;
-      gap: 10px;
-      min-width: 280px;
-    }
-    .stepText{
-      font-size: 13px;
-      color: rgba(255,255,255,0.78);
-      font-weight: 650;
-    }
-    .bar{
       width: 320px;
-      max-width: 38vw;
+      max-width: 45vw;
       height: 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
       overflow:hidden;
-      box-shadow: 0 10px 26px rgba(0,0,0,0.25) inset;
     }
-    .bar > div{
+    .progressBar{
       height:100%;
-      width:0%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand1), var(--brand2), var(--brand3));
       border-radius: 999px;
-      background: linear-gradient(90deg, rgba(255,0,56,0.85), rgba(161,0,255,0.85));
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.08) inset, 0 10px 30px rgba(255,0,56,0.10);
-      transition: width 240ms ease;
-    }
-
-    .content{
-      padding: 18px 22px 22px 22px;
-      background: rgba(0,0,0,0.34);
+      transition: width .25s ease;
     }
 
     .panel{
+      margin-top: 12px;
+      background: rgba(17,17,20,.68);
+      border:1px solid rgba(255,255,255,.14);
       border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(20,20,24,0.62), rgba(12,12,16,0.55));
-      border: 1px solid rgba(255,255,255,0.10);
-      box-shadow:
-        0 20px 70px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(255,255,255,0.04) inset;
-      padding: 20px;
+      overflow:hidden;
+      box-shadow: var(--shadow2);
     }
 
-    .qTitle{
-      margin:0 0 16px 0;
-      font-size: 20px; /* größer */
-      font-weight: 820;
-      letter-spacing: -0.01em;
-      color: rgba(255,255,255,0.95);
+    .qhead{
+      padding: 18px 18px 12px 18px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
     }
 
-    /* GRID: dynamisch je Step (2, 3 oder 4) */
+    .qtitle{
+      font-size: 22px;
+      margin:0;
+      font-weight: 900;
+      letter-spacing: -.02em;
+    }
+
+    .step{
+      color: rgba(255,255,255,.65);
+      font-size: 13px;
+      font-weight:800;
+      padding-top: 4px;
+      white-space:nowrap;
+    }
+
     .grid{
+      padding: 18px;
       display:grid;
       gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .grid.cols-2{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid.cols-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid.cols-4{ grid-template-columns: repeat(2, minmax(0, 1fr)); } /* 4 Buttons -> 2x2, passt optisch */
 
-    .option{
+    @media (max-width: 860px){
+      .brand .title{ font-size: 18px; }
+      .hero{ min-height: 200px; padding: 22px 18px; }
+      .grid{ grid-template-columns: 1fr; }
+      .progressWrap{ width: 100%; max-width: unset; }
+      .topline{ flex-direction: column; align-items: stretch; }
+    }
+
+    /* Cards (Buttons) */
+    .cardBtn{
       cursor:pointer;
+      user-select:none;
       border-radius: 18px;
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(800px 220px at 20% 15%, rgba(123,27,255,.12), transparent 55%),
+        radial-gradient(900px 220px at 85% 25%, rgba(255,42,85,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       padding: 18px 18px;
       min-height: 92px;
-      background:
-        radial-gradient(400px 120px at 20% 10%, rgba(255,255,255,0.06), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow:
-        0 10px 30px rgba(0,0,0,0.25),
-        0 0 0 1px rgba(255,255,255,0.04) inset;
-      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease, filter 180ms ease;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.30);
+      transition: transform .08s ease, border-color .12s ease, box-shadow .12s ease, background .12s ease;
       position:relative;
       overflow:hidden;
     }
 
-    .option:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: linear-gradient(120deg, rgba(255,0,56,0.16), rgba(161,0,255,0.14));
-      opacity:0;
-      transition: opacity 180ms ease;
-      pointer-events:none;
-    }
-
-    .option:hover{
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.20);
-      box-shadow:
-        0 16px 44px rgba(0,0,0,0.40),
-        0 0 0 1px rgba(255,255,255,0.06) inset,
-        0 0 34px rgba(255,0,56,0.08);
-      filter: brightness(1.05);
-    }
-
-    /* SELECTED: deutlich sichtbar + helleres “White”-Feeling */
-    .option.selected{
-      border-color: rgba(255,0,56,0.55);
-      box-shadow:
-        0 18px 50px rgba(0,0,0,0.45),
-        0 0 0 1px rgba(255,255,255,0.08) inset,
-        0 0 44px var(--accentGlow),
-        0 0 42px var(--accentGlow2);
+    .cardBtn:focus{ outline:none; box-shadow: var(--ring); }
+    .cardBtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+    .cardBtn.active{
+      border-color: rgba(255,42,85,.55);
+      box-shadow: var(--ring);
       background:
-        radial-gradient(520px 180px at 22% 18%, rgba(255,255,255,0.14), transparent 65%),
-        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
-      transform: translateY(-1px);
-    }
-    .option.selected:before{ opacity: 1; }
-
-    .optLabel{
-      font-size: 18px; /* größer */
-      font-weight: 860;
-      color: rgba(255,255,255,0.95);
-      margin:0;
-      letter-spacing: -0.01em;
-      position:relative;
+        radial-gradient(900px 240px at 25% 20%, rgba(123,27,255,.26), transparent 55%),
+        radial-gradient(900px 260px at 85% 30%, rgba(255,42,85,.22), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
     }
 
-    .optDesc{
-      margin: 8px 0 0 0;
-      color: rgba(255,255,255,0.70);
-      font-size: 13px;
-      position:relative;
+    /* Inhalt: Zahl groß, Label oben (keine Mini-Unterschrift unten) */
+    .left{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width: 0;
     }
+    .big{
+      font-size: 28px;
+      font-weight: 1000;
+      letter-spacing: -.03em;
+      line-height:1.05;
+    }
+    .lbl{
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255,255,255,.92);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      max-width: 100%;
+    }
+
+    .tag{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255,255,255,.70);
+    }
+
+    .chev{
+      width: 36px; height:36px;
+      display:grid; place-items:center;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.22);
+      flex: 0 0 auto;
+    }
+    .chev svg{ opacity:.85; }
 
     .footerRow{
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255,255,255,0.08);
       display:flex;
-      align-items:center;
       justify-content:space-between;
+      align-items:center;
       gap: 12px;
+      padding: 14px 18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
     }
 
     .btn{
       cursor:pointer;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.92);
-      border-radius: 14px;
-      padding: 12px 16px;
-      font-weight: 750;
-      letter-spacing: 0.01em;
-      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.22);
-      box-shadow: 0 16px 44px rgba(0,0,0,0.35);
-      background: rgba(255,255,255,0.085);
-    }
-
-    .btnPrimary{
-      border: 1px solid rgba(255,0,56,0.45);
-      background: linear-gradient(90deg, rgba(255,0,56,0.85), rgba(161,0,255,0.55));
-      box-shadow: 0 18px 55px rgba(255,0,56,0.10);
-    }
-    .btnPrimary:hover{
-      border-color: rgba(255,0,56,0.60);
-      box-shadow: 0 22px 70px rgba(255,0,56,0.15);
-    }
-
-    .hint{
-      font-size: 12px;
-      color: rgba(255,255,255,0.62);
-      text-align:right;
-    }
-
-    .copyright{
-      margin-top: 14px;
-      text-align:center;
-      color: rgba(255,255,255,0.55);
-      font-size: 12px;
-    }
-
-    /* RESULTS */
-    .resultTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .resultTop h3{
-      margin:0;
-      font-size: 18px;
-      font-weight: 860;
-    }
-    .sumBox{
-      text-align:right;
-    }
-    .sumBox .sum{
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-    }
-    .sumBox .small{
-      font-size: 12px;
-      color: rgba(255,255,255,0.72);
-      margin-top: 2px;
-    }
-
-    .text{
-      color: rgba(255,255,255,0.78);
-      font-size: 14px;
-      line-height: 1.55;
-      margin: 10px 0;
-    }
-
-    .split{
-      margin-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 12px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .list{
-      margin:0;
-      padding-left: 16px;
-      color: rgba(255,255,255,0.80);
-      line-height: 1.55;
-      font-size: 14px;
-    }
-
-    .table{
-      margin-top: 6px;
-      border-radius: 14px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .row{
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
+      border:none;
+      border-radius: 12px;
       padding: 12px 14px;
-      background: rgba(255,255,255,0.04);
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      font-size: 14px;
+      font-weight: 900;
+      color: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      transition: transform .08s ease, background .12s ease, border-color .12s ease;
     }
-    .row:last-child{ border-bottom:none; }
-    .row strong{ font-weight: 820; color: rgba(255,255,255,0.90); }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.12); }
+    .btn:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
+    .btnPrimary{
+      background: linear-gradient(90deg, rgba(123,27,255,.75), rgba(255,42,85,.75));
+      border-color: rgba(255,255,255,.18);
+    }
 
-    @media (max-width: 920px){
-      .hero{ height: 250px; background-position: center, center 10px, center 10px; }
-      .progressWrap{ min-width: 220px; }
-      .grid.cols-3{ grid-template-columns: 1fr; } /* mobil: untereinander, besser klickbar */
-      .grid.cols-2{ grid-template-columns: 1fr; }
-      .grid.cols-4{ grid-template-columns: 1fr; }
-      .bar{ width: 260px; }
-      .h1{ font-size: 28px; }
+    .smallNote{
+      text-align:center;
+      padding: 12px 10px 0 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,.60);
+    }
+
+    /* Preisinformation */
+    .priceBox{
+      padding: 18px;
+    }
+    .priceTitle{
+      font-size: 20px;
+      font-weight: 1000;
+      margin: 0 0 10px 0;
+    }
+    .priceText{
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1.45;
+      margin: 0 0 14px 0;
+    }
+    .table{
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+    }
+    .table td{
+      padding: 12px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      font-size: 13px;
+      color: rgba(255,255,255,.86);
+    }
+    .table tr:last-child td{ border-bottom:none; }
+    .table td:last-child{
+      text-align:right;
+      font-weight: 900;
+      color: rgba(255,255,255,.92);
+    }
+
+    .sumRow{
+      margin-top: 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap: 14px;
+      flex-wrap:wrap;
+    }
+    .sum{
+      font-size: 26px;
+      font-weight: 1100;
+      letter-spacing: -.02em;
+    }
+    .sum small{
+      display:block;
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255,255,255,.68);
+      margin-bottom: 6px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    a.linkBtn{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+
+    /* Print als PDF */
+    @media print{
+      body{ background:#fff; padding:0; }
+      .shell{ box-shadow:none; border:none; }
+      .hero, .footerRow .btn, .actions .btn, .actions a{ display:none !important; }
+      .panel{ border:none; box-shadow:none; }
+      .qhead{ border:none; background:#fff; }
+      .table{ border:1px solid #ddd; background:#fff; }
+      .table td{ color:#111; border-bottom:1px solid #eee; }
+      .sum, .qtitle, .priceTitle{ color:#111 !important; }
+      .priceText{ color:#333 !important; }
     }
   </style>
 </head>
 
 <body>
-  <div class="shell">
-    <div class="glass">
-      <div class="hero">
-        <div class="heroTopRow">
-          <div class="brandPill">
-            <div class="brandMark" aria-hidden="true">
-              <!-- Mini-Logo links oben (optional). Wenn Datei nicht existiert, zeigt der Browser einfach nichts. -->
-              <img src="MGU-0015 Logo OSION Solution XR.png" alt="OSION"/>
-            </div>
-            <div class="brandText">
-              <small>Powered by OSION Solution XR</small>
-              <span>Interaktiver Bad-Budgetrechner</span>
-            </div>
-          </div>
-
-          <div class="badge">
-            <div class="dot"></div>
-            <span>Unverbindlich</span>
+  <div class="app">
+    <div class="shell" id="appShell">
+      <div class="hero" id="hero">
+        <div class="brand">
+          <!-- Logo-Datei: falls dein Dateiname anders ist, unten im JS LOGO_SRC anpassen -->
+          <img id="logo" alt="OSION Solution XR" />
+          <div>
+            <div class="kicker">POWERED BY OSION SOLUTION XR</div>
+            <!-- Nur 1x Titel (Redundanz entfernt) -->
+            <h1 class="title">Interaktiver Bad-Budgetrechner</h1>
           </div>
         </div>
-
-        <div class="heroMain">
-          <div class="heroTitleBlock">
-            <h1 class="h1">Interaktiver Bad-Budgetrechner</h1>
-            <p class="sub">Unverbindliche Kostenschätzung auf Basis deiner Auswahl.</p>
-          </div>
-
-          <div class="progressWrap">
-            <div class="stepText" id="stepText">Schritt 1 von 8</div>
-            <div class="bar"><div id="barFill"></div></div>
-          </div>
+        <div class="pill" title="Unverbindliche Kostenschätzung">
+          <span class="dot"></span>
+          Unverbindlich
         </div>
       </div>
 
-      <div class="content">
+      <div class="main">
+        <div class="topline">
+          <div class="hint">Unverbindliche Kostenschätzung auf Basis deiner Auswahl.</div>
+          <div class="progressWrap" aria-label="Fortschritt">
+            <div class="progressBar" id="progress"></div>
+          </div>
+        </div>
+
         <div class="panel">
-          <h2 class="qTitle" id="questionTitle">…</h2>
-          <div class="grid" id="optionsGrid"></div>
+          <div class="qhead">
+            <h2 class="qtitle" id="questionTitle">…</h2>
+            <div class="step" id="stepText">Schritt …</div>
+          </div>
+
+          <div class="grid" id="options"></div>
 
           <div class="footerRow">
             <button class="btn" id="backBtn" type="button">Zurück</button>
-            <div class="hint" id="hint">Auswahl trifft automatisch die nächste Ansicht.</div>
+            <div class="step" id="stepMini">Schritt …</div>
           </div>
+        </div>
 
-          <div class="copyright">
-            © OSION Solution XR – Unverbindliche Kostenschätzung. Keine Preisgarantie.
-          </div>
+        <div class="smallNote">
+          © OSION Solution XR – Unverbindliche Kostenschätzung. Keine Preisgarantie.
         </div>
       </div>
     </div>
   </div>
 
-<script>
-(function(){
-  const VAT = 0.19;
-
-  // --- Preislogik (auf deine Screenshots kalibriert) ---
-  // Minimal-Szenario (Eigentümer / Sanierung / 1 Person / Basic / 4–5 / Dusche / Später) ~ 15.664 €
-  // Maximal-Szenario (Eigentümer / Neubau / 4 Personen / Luxus / >10 / Dusche+Wanne / 1–3 Monate) ~ 39.023 €
-  const PRICE_MODEL = {
-    base: 12660,       // Basis netto
-    fixed: 500,        // Planung/Anfahrt/Orga netto
-    sizeAdd: {
-      "4-5": 0,
-      "5-7": 1200,
-      "7-10": 2800,
-      ">10": 6500
-    },
-    peopleAdd: {
-      "1": 0,
-      "2": 400,
-      "3": 800,
-      "4": 1200
-    },
-    ownerMult: {
-      "Eigentümer": 1.00,
-      "Mieter": 1.04
-    },
-    projectMult: {
-      "Sanierung": 1.00,
-      "Neubau": 1.10
-    },
-    qualityMult: {
-      "Basic": 1.00,
-      "Komfort": 1.12,
-      "Luxus": 1.25
-    },
-    bathMult: {
-      "Dusche": 1.00,
-      "Badewanne": 1.06,
-      "Dusche und Badewanne": 1.11
-    },
-    timeMult: {
-      "Später": 1.00,
-      "3-6 Monate": 1.01,
-      "1-3 Monate": 1.03
-    },
-    // Aufteilung netto in Positionen (Summe = 1.0)
-    split: {
-      installation: 0.2884,
-      tiles:        0.1220,
-      electrical:   0.0580,
-      painting:     0.0324,
-      equipment:    0.4992
-    }
-  };
-
-  // --- Steps / UI ---
-  const steps = [
-    {
-      key: "owner",
-      title: "Sind Sie Eigentümer oder Mieter?",
-      columns: 2,
-      options: [
-        { label:"Eigentümer", desc:"Eigene Immobilie" },
-        { label:"Mieter", desc:"Abstimmung mit Vermieter nötig" }
-      ]
-    },
-    {
-      key: "project",
-      title: "Planen Sie eine Badezimmer-Sanierung oder einen Neubau?",
-      columns: 2,
-      options: [
-        { label:"Sanierung", desc:"Bestand wird modernisiert" },
-        { label:"Neubau", desc:"Komplett neues Bad" }
-      ]
-    },
-    {
-      key: "people",
-      title: "Wieviele Personen leben im Haushalt?",
-      columns: 4,
-      options: [
-        { label:"1", desc:"1 Person" },
-        { label:"2", desc:"2 Personen" },
-        { label:"3", desc:"3 Personen" },
-        { label:"4", desc:"4 Personen" }
-      ]
-    },
-    {
-      key: "quality",
-      title: "In welcher Qualität soll Ihr Bad ausgestattet werden?",
-      columns: 3, // WICHTIG: 3 nebeneinander
-      options: [
-        { label:"Basic", desc:"Preis/Leistung" },
-        { label:"Komfort", desc:"Solide Mittelklasse" },
-        { label:"Luxus", desc:"Premium Ausstattung" }
-      ]
-    },
-    {
-      key: "size",
-      title: "Wie groß ist die Grundfläche Ihres Bades?",
-      columns: 4,
-      options: [
-        { label:"4-5", desc:"4–5 qm" },
-        { label:"5-7", desc:"5–7 qm" },
-        { label:"7-10", desc:"7–10 qm" },
-        { label:">10", desc:"> 10 qm" }
-      ]
-    },
-    {
-      key: "bath",
-      title: "Möchten Sie Ihr Badezimmer mit einer Dusche und/oder einer Badewanne ausstatten?",
-      columns: 3, // WICHTIG: 3 nebeneinander
-      options: [
-        { label:"Dusche", desc:"Nur Dusche" },
-        { label:"Badewanne", desc:"Nur Wanne" },
-        { label:"Dusche und Badewanne", desc:"Dusche + Wanne" }
-      ]
-    },
-    {
-      key: "time",
-      title: "Zeitpunkt der Ausführung?",
-      columns: 3, // WICHTIG: 3 nebeneinander
-      options: [
-        { label:"1-3 Monate", desc:"Schnelle Umsetzung" },
-        { label:"3-6 Monate", desc:"Normaler Vorlauf" },
-        { label:"Später", desc:"Flexible Planung" }
-      ]
-    },
-    {
-      key: "result",
-      title: "Preisinformation",
-      columns: 0,
-      options: []
-    }
-  ];
-
-  const state = {
-    stepIndex: 0,
-    answers: {}
-  };
-
-  const elTitle = document.getElementById("questionTitle");
-  const elGrid  = document.getElementById("optionsGrid");
-  const elBack  = document.getElementById("backBtn");
-  const elStep  = document.getElementById("stepText");
-  const elBar   = document.getElementById("barFill");
-
-  function formatEUR(v){
-    return v.toLocaleString("de-DE", { style:"currency", currency:"EUR" });
-  }
-
-  function compute(){
-    const a = state.answers;
-
-    const baseNet = (PRICE_MODEL.base + PRICE_MODEL.fixed
-      + (PRICE_MODEL.sizeAdd[a.size] ?? 0)
-      + (PRICE_MODEL.peopleAdd[a.people] ?? 0)
-    );
-
-    const mult =
-      (PRICE_MODEL.ownerMult[a.owner] ?? 1) *
-      (PRICE_MODEL.projectMult[a.project] ?? 1) *
-      (PRICE_MODEL.qualityMult[a.quality] ?? 1) *
-      (PRICE_MODEL.bathMult[a.bath] ?? 1) *
-      (PRICE_MODEL.timeMult[a.time] ?? 1);
-
-    const net = baseNet * mult;
-
-    const split = PRICE_MODEL.split;
-    const items = [
-      { name: "Demontage / Montage / Installation im Bad", value: net * split.installation },
-      { name: "Fliesenarbeiten / Fliesen im Bad",          value: net * split.tiles },
-      { name: "Elektroarbeiten im Bad",                    value: net * split.electrical },
-      { name: "Malerarbeiten im Bad",                      value: net * split.painting },
-      { name: "Ausstattung im Bad",                        value: net * split.equipment }
+  <script>
+    /* =========================
+       ASSETS (Dateinamen anpassen, falls nötig)
+       ========================= */
+    const LOGO_SRC_CANDIDATES = [
+      // empfohlen (ohne Leerzeichen):
+      "logo.png",
+      // dein aktueller Upload-Name (mit Leerzeichen) – funktioniert, wenn Datei exakt so heißt:
+      "MGU-0015%20Logo%20OSION%20Solution%20XR.png",
+      "MGU-0015 Logo OSION Solution XR.png"
     ];
 
-    const gross = net * (1 + VAT);
-    return { net, gross, items };
-  }
+    const HERO_BG_CANDIDATES = [
+      // OSION-Hintergrund im Repo (falls du ihn hochgeladen hast):
+      "osion-header.png",
+      "osion-header.webp",
+      // Fallback: kein Bild
+      ""
+    ];
 
-  function setProgress(){
-    const totalSteps = 8;
-    const current = Math.min(state.stepIndex + 1, totalSteps);
-    elStep.textContent = `Schritt ${current} von ${totalSteps}`;
-    elBar.style.width = `${((current-1)/(totalSteps-1))*100}%`;
-  }
+    /* =========================
+       Schritte / Fragen (8 Schritte)
+       ========================= */
+    const steps = [
+      {
+        key: "role",
+        title: "Sind Sie Eigentümer oder Mieter?",
+        options: [
+          { id:"owner", big:"", label:"Eigentümer" },
+          { id:"tenant", big:"", label:"Mieter" }
+        ]
+      },
+      {
+        key: "project",
+        title: "Planen Sie eine Badezimmersanierung oder einen Neubau?",
+        options: [
+          { id:"renovation", big:"", label:"Sanierung" },
+          { id:"newbuild", big:"", label:"Neubau" }
+        ]
+      },
+      {
+        key: "people",
+        title: "Wieviele Personen leben im Haushalt?",
+        options: [
+          { id:"p1", big:"1", label:"Person" },
+          { id:"p2", big:"2", label:"Personen" },
+          { id:"p3", big:"3", label:"Personen" },
+          { id:"p4", big:"4", label:"Personen" }
+        ]
+      },
+      {
+        key: "quality",
+        title: "In welcher Qualität soll Ihr Bad ausgestattet werden?",
+        options: [
+          { id:"basic", big:"", label:"Basic" },
+          { id:"comfort", big:"", label:"Komfort" },
+          { id:"luxury", big:"", label:"Luxus" }
+        ]
+      },
+      {
+        key: "size",
+        title: "Wie groß ist die Grundfläche Ihres Bades?",
+        options: [
+          { id:"s45", big:"4–5", label:"qm" },
+          { id:"s57", big:"5–7", label:"qm" },
+          { id:"s710", big:"7–10", label:"qm" },
+          { id:"s10p", big:">10", label:"qm" }
+        ]
+      },
+      {
+        key: "bath",
+        title: "Möchten Sie Ihr Badezimmer mit einer Dusche und/oder einer Badewanne ausstatten?",
+        options: [
+          { id:"shower", big:"", label:"Dusche" },
+          { id:"tub", big:"", label:"Badewanne" },
+          { id:"both", big:"", label:"Dusche und Badewanne" }
+        ]
+      },
+      {
+        key: "time",
+        title: "Zeitpunkt der Ausführung?",
+        options: [
+          { id:"t13", big:"1–3", label:"Monate" },
+          { id:"t36", big:"3–6", label:"Monate" },
+          { id:"later", big:"", label:"Später" }
+        ]
+      },
+      {
+        key: "result",
+        title: "Preisinformation",
+        isResult: true
+      }
+    ];
 
-  function gridClassFor(columns){
-    if(columns === 2) return "cols-2";
-    if(columns === 3) return "cols-3";
-    if(columns === 4) return "cols-4";
-    return "";
-  }
+    /* =========================
+       Preislogik (so aufgebaut, dass deine beiden Referenzwerte passen)
+       - Minimal: Eigentümer + Sanierung + 1 Person + Basic + 4–5 qm + Dusche + Später = 15.664,54 €
+       - Maximal: Eigentümer + Neubau + 4 Personen + Luxus + >10 qm + Dusche+Wanne + 1–3 Monate = 39.032,94 €
+       ========================= */
+    const BASE_TOTAL = 15664.54;
 
-  function render(){
-    setProgress();
+    const deltas = {
+      project: { renovation: 0, newbuild: 6000.00 },
+      people:  { p1: 0, p2: 450.00, p3: 950.00, p4: 1500.00 },
+      quality: { basic: 0, comfort: 4200.00, luxury: 9000.00 },
+      size:    { s45: 0, s57: 1700.00, s710: 3200.00, s10p: 5000.00 },
+      bath:    { shower: 0, tub: 650.00, both: 1500.00 },
+      time:    { later: 0, t36: 180.00, t13: 368.40 },
+      role:    { owner: 0, tenant: 0 } // aktuell ohne Einfluss (kannst du später anpassen)
+    };
 
-    const step = steps[state.stepIndex];
-    elTitle.textContent = step.title;
-
-    // Back-Button
-    elBack.disabled = state.stepIndex === 0;
-    elBack.style.opacity = elBack.disabled ? "0.45" : "1";
-    elBack.style.cursor = elBack.disabled ? "not-allowed" : "pointer";
-
-    // Grid reset
-    elGrid.className = `grid ${gridClassFor(step.columns)}`.trim();
-    elGrid.innerHTML = "";
-
-    if(step.key === "result"){
-      renderResult();
-      return;
+    function calcTotal(state){
+      let total = BASE_TOTAL;
+      total += deltas.role[state.role] ?? 0;
+      total += deltas.project[state.project] ?? 0;
+      total += deltas.people[state.people] ?? 0;
+      total += deltas.quality[state.quality] ?? 0;
+      total += deltas.size[state.size] ?? 0;
+      total += deltas.bath[state.bath] ?? 0;
+      total += deltas.time[state.time] ?? 0;
+      return round2(total);
     }
 
-    const currentAnswer = state.answers[step.key];
-
-    step.options.forEach(opt => {
-      const card = document.createElement("div");
-      card.className = "option" + (currentAnswer === opt.label ? " selected" : "");
-      card.tabIndex = 0;
-
-      const p1 = document.createElement("p");
-      p1.className = "optLabel";
-      p1.textContent = opt.label;
-
-      const p2 = document.createElement("p");
-      p2.className = "optDesc";
-      p2.textContent = opt.desc;
-
-      card.appendChild(p1);
-      card.appendChild(p2);
-
-      const pick = () => {
-        // markieren
-        state.answers[step.key] = opt.label;
-
-        // Selected-UI sofort zeigen
-        [...elGrid.querySelectorAll(".option")].forEach(x => x.classList.remove("selected"));
-        card.classList.add("selected");
-
-        // Auto-Weiter (kleine Verzögerung, damit der Effekt sichtbar ist)
-        window.setTimeout(() => {
-          state.stepIndex = Math.min(state.stepIndex + 1, steps.length - 1);
-          render();
-        }, 120);
+    function breakdown(total){
+      // Summe ist "mit MwSt." (wie in deinem Screenshot).
+      // Aufteilung in Posten (typisch, plausibel):
+      const shares = {
+        install: 0.23,   // Demontage/Montage/Installation
+        painter: 0.07,   // Maler
+        tiles: 0.16,     // Fliesen
+        electric: 0.08,  // Elektro
+        equip: 0.46      // Ausstattung
       };
 
-      card.addEventListener("click", pick);
-      card.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" || e.key === " "){
-          e.preventDefault();
-          pick();
+      // Rechnen + Rundung so, dass die Summe exakt passt
+      let install = round2(total * shares.install);
+      let painter = round2(total * shares.painter);
+      let tiles = round2(total * shares.tiles);
+      let electric = round2(total * shares.electric);
+      let equip = round2(total - install - painter - tiles - electric);
+
+      return { install, painter, tiles, electric, equip };
+    }
+
+    /* =========================
+       UI / Navigation
+       - Auto-Weiter bei Auswahl (kein "Weiter"-Button nötig)
+       ========================= */
+    const state = {
+      role: null, project: null, people: null, quality: null, size: null, bath: null, time: null
+    };
+
+    let stepIndex = 0;
+
+    const questionTitle = document.getElementById("questionTitle");
+    const stepText = document.getElementById("stepText");
+    const stepMini = document.getElementById("stepMini");
+    const optionsEl = document.getElementById("options");
+    const backBtn = document.getElementById("backBtn");
+    const progress = document.getElementById("progress");
+
+    backBtn.addEventListener("click", () => {
+      if(stepIndex === 0) return;
+      if(stepIndex === steps.length - 1){
+        stepIndex = steps.length - 2;
+      }else{
+        stepIndex -= 1;
+      }
+      render();
+    });
+
+    function render(){
+      const totalSteps = steps.length - 1; // Ergebnis zählt als Schritt 8
+      const visibleStep = Math.min(stepIndex + 1, steps.length);
+      const pct = (stepIndex / (steps.length - 1)) * 100;
+      progress.style.width = `${pct}%`;
+
+      const step = steps[stepIndex];
+      questionTitle.textContent = step.title;
+
+      const stepLabel = `Schritt ${Math.min(stepIndex + 1, steps.length)} von ${steps.length}`;
+      stepText.textContent = stepLabel;
+      stepMini.textContent = stepLabel;
+
+      backBtn.disabled = stepIndex === 0;
+
+      optionsEl.innerHTML = "";
+
+      if(step.isResult){
+        renderResult();
+        return;
+      }
+
+      // Standard: Options-Grid
+      const key = step.key;
+      const currentValue = state[key];
+
+      step.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cardBtn" + (currentValue === opt.id ? " active" : "");
+        btn.setAttribute("aria-pressed", currentValue === opt.id ? "true" : "false");
+
+        const left = document.createElement("div");
+        left.className = "left";
+
+        // Zahl / Kurzlabel oben groß (z.B. 4–5 / 1 / 2 / >10)
+        if(opt.big){
+          const big = document.createElement("div");
+          big.className = "big";
+          big.textContent = opt.big;
+          left.appendChild(big);
         }
+
+        // Label oben (statt unten klein)
+        const lbl = document.createElement("div");
+        lbl.className = "lbl";
+        lbl.textContent = opt.label;
+        left.appendChild(lbl);
+
+        // Optional: Tag (bei dir in Beispielen als kleiner Zusatz)
+        // (Wenn du das später brauchst, hier opt.tag verwenden)
+
+        const chev = document.createElement("div");
+        chev.className = "chev";
+        chev.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" stroke="white" stroke-opacity=".85" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        `;
+
+        btn.appendChild(left);
+        btn.appendChild(chev);
+
+        btn.addEventListener("click", () => {
+          state[key] = opt.id;
+          // Auto-weiter
+          if(stepIndex < steps.length - 1) stepIndex += 1;
+          render();
+        });
+
+        optionsEl.appendChild(btn);
       });
+    }
 
-      elGrid.appendChild(card);
-    });
-  }
+    function renderResult(){
+      const total = calcTotal(state);
+      const b = breakdown(total);
 
-  function renderResult(){
-    const { net, gross, items } = compute();
+      // Ergebnisbereich (Redundanz "Preisinformation" doppelt entfernt)
+      optionsEl.innerHTML = `
+        <div class="priceBox" style="grid-column: 1 / -1;">
+          <h3 class="priceTitle">Preisinformation</h3>
+          <p class="priceText">
+            Für die von Ihnen gewünschte Badausstattung können Sie ungefähr folgende Kosten einplanen.
+            In der Regel setzt sich der Gesamtpreis für ein neues Badezimmer zu einem Drittel aus Material-
+            und zu zwei Dritteln aus den Arbeitskosten zusammen.
+            <br><br>
+            Nehmen Sie gerne über den untenstehenden Link Kontakt auf, damit wir in einem persönlichen Gespräch weitere Fragen klären können.
+          </p>
 
-    const wrap = document.createElement("div");
-    wrap.innerHTML = `
-      <div class="resultTop">
-        <h3>Preisinformation</h3>
-        <div class="sumBox">
-          <div class="sum">Summe Total (mit MwSt.): ${formatEUR(gross)}</div>
-          <div class="small">Netto ca.: ${formatEUR(net)} · MwSt. 19%</div>
+          <table class="table" aria-label="Kostenübersicht">
+            <tr>
+              <td>Demontage / Montage / Installation im Bad</td>
+              <td>${fmtEUR(b.install)}</td>
+            </tr>
+            <tr>
+              <td>Malerarbeiten im Bad</td>
+              <td>${fmtEUR(b.painter)}</td>
+            </tr>
+            <tr>
+              <td>Fliesenarbeiten / Fliesen im Bad</td>
+              <td>${fmtEUR(b.tiles)}</td>
+            </tr>
+            <tr>
+              <td>Elektroarbeiten im Bad</td>
+              <td>${fmtEUR(b.electric)}</td>
+            </tr>
+            <tr>
+              <td>Ausstattung im Bad</td>
+              <td>${fmtEUR(b.equip)}</td>
+            </tr>
+          </table>
+
+          <div class="sumRow">
+            <div class="sum">
+              <small>Summe Total (mit MwSt.)</small>
+              ${fmtEUR(total)}
+            </div>
+
+            <div class="actions">
+              <button class="btn" type="button" id="downloadBtn">Informationen herunterladen</button>
+              <button class="btn" type="button" id="mailBtn">Ergebnis per E-Mail senden</button>
+              <a class="btn btnPrimary linkBtn" href="https://www.elitebau-hamburg.de/" target="_blank" rel="noopener">
+                Zum Kontaktformular
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
+      `;
 
-      <p class="text">
-        Für die gewünschte Badausstattung können Sie ungefähr folgende Kosten einplanen.
-        In der Regel setzt sich der Gesamtpreis für ein neues Badezimmer zu etwa einem Drittel aus Material- und zu zwei Dritteln aus Arbeitskosten zusammen.
-      </p>
+      // Buttons
+      document.getElementById("downloadBtn").addEventListener("click", downloadInfo);
+      document.getElementById("mailBtn").addEventListener("click", openMail);
 
-      <p class="text">
-        Nehmen Sie gerne über den untenstehenden Link Kontakt auf, damit in einem Gespräch Details abgestimmt werden können.
-      </p>
+      // Progress auf 100%
+      progress.style.width = "100%";
+    }
 
-      <div class="split">
-        <div>
-          <strong style="color:rgba(255,255,255,0.92);">Ihre Auswahl:</strong>
-          <ul class="list">
-            <li>${state.answers.owner}</li>
-            <li>${state.answers.project}</li>
-            <li>${state.answers.people} Personen</li>
-            <li>${state.answers.quality}</li>
-            <li>${labelSize(state.answers.size)}</li>
-            <li>${state.answers.bath}</li>
-            <li>${state.answers.time}</li>
-          </ul>
-        </div>
+    function downloadInfo(){
+      const payload = makePayload();
+      const txt = JSON.stringify(payload, null, 2);
 
-        <div>
-          <strong style="color:rgba(255,255,255,0.92);">Kostenaufstellung (ca.)</strong>
-          <div class="table" id="costTable"></div>
-        </div>
-      </div>
-
-      <div class="footerRow" style="margin-top:16px;">
-        <button class="btn btnPrimary" id="contactBtn" type="button">Zum Kontaktformular</button>
-        <button class="btn" id="downloadBtn" type="button">Informationen herunterladen</button>
-      </div>
-    `;
-
-    elGrid.className = "grid";
-    elGrid.appendChild(wrap);
-
-    const table = wrap.querySelector("#costTable");
-    items.forEach(it => {
-      const row = document.createElement("div");
-      row.className = "row";
-      row.innerHTML = `<span>${it.name}</span><strong>${formatEUR(it.value)}</strong>`;
-      table.appendChild(row);
-    });
-
-    // Kontakt: Zielwebseite
-    wrap.querySelector("#contactBtn").addEventListener("click", () => {
-      window.open("https://www.elitebau-hamburg.de/", "_blank", "noopener");
-    });
-
-    // Download: Text-Datei
-    wrap.querySelector("#downloadBtn").addEventListener("click", () => {
-      const lines = [];
-      lines.push("OSION Solution XR – Bad-Budgetrechner (unverbindlich)");
-      lines.push("");
-      lines.push("Auswahl:");
-      lines.push(`- ${state.answers.owner}`);
-      lines.push(`- ${state.answers.project}`);
-      lines.push(`- ${state.answers.people} Personen`);
-      lines.push(`- ${state.answers.quality}`);
-      lines.push(`- ${labelSize(state.answers.size)}`);
-      lines.push(`- ${state.answers.bath}`);
-      lines.push(`- ${state.answers.time}`);
-      lines.push("");
-      lines.push("Kostenaufstellung (netto ca.):");
-      items.forEach(it => lines.push(`- ${it.name}: ${formatEUR(it.value)}`));
-      lines.push("");
-      lines.push(`Summe netto ca.: ${formatEUR(net)}`);
-      lines.push(`Summe brutto (mit 19% MwSt.) ca.: ${formatEUR(gross)}`);
-      lines.push("");
-      lines.push("Hinweis: Unverbindliche Schätzung, keine Preisgarantie.");
-
-      const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([txt], { type: "application/json;charset=utf-8" });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = "bad-kostenschaetzung.txt";
+      a.download = "bad-budgetrechner-ergebnis.json";
       document.body.appendChild(a);
       a.click();
       a.remove();
 
-      URL.revokeObjectURL(url);
-    });
-  }
+      setTimeout(() => URL.revokeObjectURL(url), 500);
+    }
 
-  function labelSize(key){
-    if(key === "4-5") return "4–5 qm";
-    if(key === "5-7") return "5–7 qm";
-    if(key === "7-10") return "7–10 qm";
-    if(key === ">10") return "> 10 qm";
-    return key || "";
-  }
+    function openMail(){
+      const p = makePayload();
+      const subject = encodeURIComponent("Bad-Budgetrechner – Ergebnis (unverbindlich)");
+      const body = encodeURIComponent(
+        `Ergebnis (unverbindlich)\n\n` +
+        `Rolle: ${p.answers.role}\n` +
+        `Projekt: ${p.answers.project}\n` +
+        `Haushalt: ${p.answers.people}\n` +
+        `Qualität: ${p.answers.quality}\n` +
+        `Grundfläche: ${p.answers.size}\n` +
+        `Ausstattung: ${p.answers.bath}\n` +
+        `Zeitpunkt: ${p.answers.time}\n\n` +
+        `Summe Total (mit MwSt.): ${p.total}\n\n` +
+        `Kontakt: https://www.elitebau-hamburg.de/\n\n` +
+        `Hinweis: Unverbindliche Kostenschätzung. Keine Preisgarantie.\n`
+      );
 
-  elBack.addEventListener("click", () => {
-    if(state.stepIndex === 0) return;
-    state.stepIndex = Math.max(0, state.stepIndex - 1);
+      // mailto: öffnet lokal den Mail-Client (ohne externen Service)
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    function makePayload(){
+      const total = calcTotal(state);
+      const b = breakdown(total);
+
+      return {
+        generatedAt: new Date().toISOString(),
+        brand: "OSION Solution XR",
+        disclaimer: "Unverbindliche Kostenschätzung. Keine Preisgarantie.",
+        answers: {
+          role: labelOf("role", state.role),
+          project: labelOf("project", state.project),
+          people: labelOf("people", state.people),
+          quality: labelOf("quality", state.quality),
+          size: labelOf("size", state.size),
+          bath: labelOf("bath", state.bath),
+          time: labelOf("time", state.time)
+        },
+        breakdown: {
+          installation: fmtEUR(b.install),
+          painter: fmtEUR(b.painter),
+          tiles: fmtEUR(b.tiles),
+          electric: fmtEUR(b.electric),
+          equipment: fmtEUR(b.equip)
+        },
+        total: fmtEUR(total)
+      };
+    }
+
+    function labelOf(key, id){
+      const step = steps.find(s => s.key === key);
+      const opt = step?.options?.find(o => o.id === id);
+      if(!opt) return "";
+      if(opt.big && (key === "size")) return `${opt.big} ${opt.label}`;
+      if(opt.big && (key === "people")) return `${opt.big} ${opt.label}`;
+      if(opt.big && (key === "time")) return `${opt.big} ${opt.label}`;
+      return opt.label;
+    }
+
+    function round2(n){ return Math.round(n * 100) / 100; }
+
+    function fmtEUR(n){
+      return new Intl.NumberFormat("de-DE", { style:"currency", currency:"EUR" }).format(n);
+    }
+
+    /* =========================
+       Asset Loader (robust)
+       ========================= */
+    function setFirstWorkingImage(imgEl, candidates, fallback = ""){
+      let i = 0;
+      const tryNext = () => {
+        if(i >= candidates.length){
+          if(fallback) imgEl.src = fallback;
+          return;
+        }
+        const src = candidates[i++];
+        if(!src){
+          tryNext();
+          return;
+        }
+        const test = new Image();
+        test.onload = () => { imgEl.src = src; };
+        test.onerror = tryNext;
+        test.src = src;
+      };
+      tryNext();
+    }
+
+    function setHeroBackground(candidates){
+      let i = 0;
+      const hero = document.getElementById("hero");
+
+      const tryNext = () => {
+        if(i >= candidates.length){
+          // Fallback: ohne Bild, nur Gradient
+          document.documentElement.style.setProperty("--hero-bg", "none");
+          return;
+        }
+        const src = candidates[i++];
+        if(!src){
+          tryNext();
+          return;
+        }
+        const test = new Image();
+        test.onload = () => {
+          document.documentElement.style.setProperty("--hero-bg", `url("${src}")`);
+        };
+        test.onerror = tryNext;
+        test.src = src;
+      };
+      tryNext();
+    }
+
+    // Init
+    setHeroBackground(HERO_BG_CANDIDATES);
+    setFirstWorkingImage(document.getElementById("logo"), LOGO_SRC_CANDIDATES);
+
+    // Start (Schritt 1)
     render();
-  });
-
-  // Start
-  render();
-})();
-</script>
+  </script>
 </body>
 </html>
