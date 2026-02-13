@@ -523,7 +523,9 @@
         </div>
 
         <div class="subRow">
-          <div class="subText">Unverbindliche Kostenschätzung auf Basis deiner Auswahl.</div>
+          <div class="subText">
+            Unverbindliche Kostenschätzung auf Basis Ihrer Auswahl. Keine Preisgarantie.
+          </div>
           <div class="progressWrap">
             <div class="progressBar" aria-hidden="true">
               <div class="progressFill" id="progressFill"></div>
@@ -538,7 +540,7 @@
           <div class="panelHead">
             <div class="qWrap">
               <h2 class="question" id="question">…</h2>
-              <p class="hint" id="hint">Bitte wähle eine Option.</p>
+              <p class="hint" id="hint">Bitte wählen Sie eine Option.</p>
             </div>
             <div class="meta" id="metaRight"> </div>
           </div>
@@ -592,7 +594,7 @@
                 </div>
 
                 <p class="miniHint">
-                  Hinweis: Die Grundfläche (qm) beeinflusst die Berechnung deutlich. Die Raumhöhe wird zusätzlich als Faktor für Wandarbeiten berücksichtigt.
+                  Hinweis: Es handelt sich um eine unverbindliche Kostenschätzung. Die tatsächlichen Kosten können je nach Zustand vor Ort abweichen.
                 </p>
               </div>
             </div>
@@ -605,7 +607,7 @@
                 </div>
 
                 <p class="hint" style="margin:0 0 8px 0; color:rgba(255,255,255,.78);">
-                  Für die gewünschte Badausstattung können Sie ungefähr folgende Kosten einplanen. In der Regel setzt sich der Gesamtpreis für ein neues Badezimmer zu einem Drittel aus Material- und zu zwei Dritteln aus den Arbeitskosten zusammen.
+                  Unverbindliche Kostenschätzung auf Basis Ihrer Auswahl. Die Berechnung dient als Orientierung und ersetzt keine Vor-Ort-Besichtigung.
                 </p>
 
                 <table class="table" aria-label="Kostenaufteilung">
@@ -633,25 +635,16 @@
                   </tbody>
                 </table>
 
+                <!-- CTA: NUR EIN BUTTON, wie gewünscht -->
                 <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;">
-                  <a class="btn btnPrimary" id="ctaLink" href="https://www.elitebau-hamburg.de/" target="_blank" rel="noopener">
-                    Zum Kontaktformular
+                  <a class="btn btnPrimary" id="ctaLink" href="https://elitebau-hamburg.de/kontakt" target="_blank" rel="noopener">
+                    Kostenlose Vor-Ort-Einschätzung anfragen
                     <span aria-hidden="true">↗</span>
-                  </a>
-
-                  <button class="btn" type="button" id="downloadBtn">
-                    Informationen herunterladen
-                    <span aria-hidden="true">⬇</span>
-                  </button>
-
-                  <a class="btn" id="mailBtn" href="#" target="_blank" rel="noopener">
-                    Per E-Mail senden
-                    <span aria-hidden="true">✉</span>
                   </a>
                 </div>
 
                 <div class="note">
-                  Keine Preisgarantie. Die Berechnung dient als Orientierung und ersetzt keine Vor-Ort-Besichtigung.
+                  Unverbindliche Kostenschätzung. Keine Preisgarantie. Abweichungen sind durch Zustand vor Ort, Leitungen, Untergrund und Elektro möglich.
                 </div>
               </div>
             </div>
@@ -722,16 +715,15 @@
         ]
       },
       {
-        // Presets + optional individuelle Maße (Slider)
+        // Presets + optionale individuelle Maße (Slider)
         id: "area",
         question: "Wie groß ist die Grundfläche Ihres Bades?",
         hint: "Wählen Sie eine Größe oder nutzen Sie die individuellen Maße.",
         grid: "cols-3",
         options: [
-          // Presets: Quick-Select (auto weiter)
-          { value: "small",  label: "Klein (ca. 5 qm)",  scoreNorm: 0.12, add: 0, dims: { area: 5.0, height: 2.4 } },
-          { value: "mid",    label: "Mittel (ca. 8 qm)", scoreNorm: 0.44, add: 0, dims: { area: 8.0, height: 2.4 } },
-          { value: "large",  label: "Groß (ca. 13 qm)",  scoreNorm: 1.00, add: 0, dims: { area: 13.0, height: 2.4 } }
+          { value: "small", label: "Klein (ca. 5 qm)", scoreNorm: 0.12, add: 0, dims: { area: 5.0, height: 2.4 } },
+          { value: "mid",   label: "Mittel (ca. 8 qm)", scoreNorm: 0.44, add: 0, dims: { area: 8.0, height: 2.4 } },
+          { value: "large", label: "Groß (ca. 13 qm)", scoreNorm: 1.00, add: 0, dims: { area: 13.0, height: 2.4 } }
         ]
       },
       {
@@ -746,7 +738,7 @@
         ]
       },
 
-      // ===== Erweiterungen (wie besprochen) =====
+      // Erweiterungen
       {
         id: "floor",
         question: "Welcher Bodenbelag ist geplant?",
@@ -841,7 +833,6 @@
     const PRICE_MIN = 15664.54;
     const PRICE_MAX = 39032.94;
 
-    // Gewichte (Score-Teil). Add-ons kommen zusätzlich drauf.
     const weights = {
       ownership:   0.06,
       projectType: 0.14,
@@ -870,9 +861,9 @@
     };
 
     // Fläche-Normierung für Slider
-    const AREA_MIN = 4.0;   // qm
-    const AREA_MAX = 13.0;  // qm
-    const HEIGHT_REF = 2.4; // m (Referenzhöhe für Wandarbeiten)
+    const AREA_MIN = 4.0;
+    const AREA_MAX = 13.0;
+    const HEIGHT_REF = 2.4;
 
     // =========================
     // 3) State / UI
@@ -898,8 +889,6 @@
     const elCPaint = document.getElementById("cPaint");
     const elCElec = document.getElementById("cElec");
     const elCEquip = document.getElementById("cEquip");
-    const elMailBtn = document.getElementById("mailBtn");
-    const elDownloadBtn = document.getElementById("downloadBtn");
 
     // Area custom UI
     const elAreaCustomWrap = document.getElementById("areaCustomWrap");
@@ -916,7 +905,6 @@
       return new Intl.NumberFormat("de-DE", { style:"currency", currency:"EUR" }).format(n);
     }
     function clamp01(x){ return Math.min(1, Math.max(0, x)); }
-
     function to1(n){ return Math.round(n * 10) / 10; }
     function to2(n){ return Math.round(n * 100) / 100; }
 
@@ -954,7 +942,6 @@
         if (!weights[step.id]) continue;
         const w = weights[step.id];
 
-        // area: nutzt scoreNorm (Preset oder Slider)
         if (step.id === "area"){
           const norm = typeof ans.scoreNorm === "number" ? ans.scoreNorm : 0;
           s += w * clamp01(norm);
@@ -1036,18 +1023,10 @@
         elCElec.textContent = euro(b.elec);
         elCEquip.textContent = euro(b.equip);
 
-        const summary = buildSummary(total);
-        const subject = encodeURIComponent("Bad-Budgetrechner – Anfrage");
-        const body = encodeURIComponent(summary);
-        elMailBtn.href = `mailto:?subject=${subject}&body=${body}`;
-
-        elDownloadBtn.onclick = () => { openPrintView(total, b); };
-
         elResultWrap.style.display = "block";
         return;
       }
 
-      // Optionen rendern (Auto-Weiter per Klick)
       step.options.forEach((opt) => {
         const btn = document.createElement("button");
         btn.type = "button";
@@ -1075,7 +1054,6 @@
         btn.appendChild(chev);
 
         btn.addEventListener("click", () => {
-          // area presets speichern inkl. dims (qm + Höhe)
           if (step.id === "area"){
             state.answers[step.id] = {
               value: opt.value,
@@ -1095,7 +1073,6 @@
         elOptions.appendChild(btn);
       });
 
-      // Falls area: Live-Update der Slider anzeigen (ohne Auto-Weiter)
       if (step.id === "area"){
         updateAreaLive();
       }
@@ -1131,7 +1108,6 @@
       const norm = areaNormFromQm(qm);
 
       elAreaLive.textContent = `Grundfläche: ${qm.toFixed(2)} qm · Höhe: ${to1(H)} m`;
-      // Optional: Du könntest hier noch eine Mini-Vorschau der Norm anzeigen, wenn gewünscht.
       return { L, W, H, qm, norm };
     }
 
@@ -1142,7 +1118,6 @@
     });
 
     elApplyAreaBtn.addEventListener("click", () => {
-      // Übernimmt Slider-Werte als Area-Antwort und geht weiter
       const { L, W, H, qm, norm } = updateAreaLive();
 
       state.answers.area = {
@@ -1155,128 +1130,6 @@
 
       goNext();
     });
-
-    function buildSummary(total){
-      const pick = (id) => state.answers[id]?.label ?? "—";
-
-      const area = state.answers.area;
-      let areaLine = pick("area");
-      if (area?.value === "custom" && area?.dims){
-        areaLine = `Individuell: ${area.dims.area.toFixed(2)} qm (${area.dims.length.toFixed(1)} m × ${area.dims.width.toFixed(1)} m), Höhe ${area.dims.height.toFixed(1)} m`;
-      }
-
-      return [
-        "Auswahl (unverbindlich):",
-        "",
-        `• Eigentümer / Mieter: ${pick("ownership")}`,
-        `• Sanierung / Neubau: ${pick("projectType")}`,
-        `• Personen im Haushalt: ${pick("persons")}`,
-        `• Qualität: ${pick("quality")}`,
-        `• Grundfläche: ${areaLine}`,
-        `• Dusche / Badewanne: ${pick("showerBath")}`,
-        `• Bodenbelag: ${pick("floor")}`,
-        `• Wände: ${pick("walls")}`,
-        `• WC: ${pick("wcType")}`,
-        `• Waschplatz: ${pick("washplace")}`,
-        `• Heizung: ${pick("heating")}`,
-        `• Beleuchtung: ${pick("lighting")}`,
-        `• Zeitpunkt: ${pick("timing")}`,
-        "",
-        `Summe Total (inkl. MwSt.): ${euro(total)}`,
-        "",
-        "Hinweis: Keine Preisgarantie. Ergebnis dient als Orientierung."
-      ].join("\n");
-    }
-
-    function openPrintView(total, b){
-      const pick = (id) => state.answers[id]?.label ?? "—";
-
-      const area = state.answers.area;
-      let areaLine = pick("area");
-      if (area?.value === "custom" && area?.dims){
-        areaLine = `Individuell: ${area.dims.area.toFixed(2)} qm (${area.dims.length.toFixed(1)} m × ${area.dims.width.toFixed(1)} m), Höhe ${area.dims.height.toFixed(1)} m`;
-      }
-
-      const html = `
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bad-Budgetrechner – Informationen</title>
-  <style>
-    body{ font-family: Arial, Helvetica, sans-serif; margin:32px; color:#111; }
-    h1{ margin:0 0 6px 0; font-size:22px; }
-    .muted{ color:#555; font-size:13px; margin:0 0 18px 0; }
-    .box{ border:1px solid #ddd; border-radius:10px; padding:14px; margin:14px 0; }
-    table{ width:100%; border-collapse:collapse; }
-    td{ padding:8px 0; border-top:1px solid #eee; }
-    td:last-child{ text-align:right; font-weight:700; }
-    .total{ font-size:18px; font-weight:800; }
-    .small{ font-size:12px; color:#666; line-height:1.35; }
-  </style>
-</head>
-<body>
-  <h1>Bad-Budgetrechner – Informationen</h1>
-  <p class="muted">Powered by OSION Solution XR · Unverbindliche Kostenschätzung</p>
-
-  <div class="box">
-    <strong>Auswahl</strong><br/>
-    <div class="small" style="margin-top:8px">
-      • Eigentümer / Mieter: ${escapeHtml(pick("ownership"))}<br/>
-      • Sanierung / Neubau: ${escapeHtml(pick("projectType"))}<br/>
-      • Personen im Haushalt: ${escapeHtml(pick("persons"))}<br/>
-      • Qualität: ${escapeHtml(pick("quality"))}<br/>
-      • Grundfläche: ${escapeHtml(areaLine)}<br/>
-      • Dusche / Badewanne: ${escapeHtml(pick("showerBath"))}<br/>
-      • Bodenbelag: ${escapeHtml(pick("floor"))}<br/>
-      • Wände: ${escapeHtml(pick("walls"))}<br/>
-      • WC: ${escapeHtml(pick("wcType"))}<br/>
-      • Waschplatz: ${escapeHtml(pick("washplace"))}<br/>
-      • Heizung: ${escapeHtml(pick("heating"))}<br/>
-      • Beleuchtung: ${escapeHtml(pick("lighting"))}<br/>
-      • Zeitpunkt: ${escapeHtml(pick("timing"))}
-    </div>
-  </div>
-
-  <div class="box">
-    <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-end; flex-wrap:wrap;">
-      <div><strong>Preisinformation</strong></div>
-      <div class="total">Summe Total (inkl. MwSt.): ${euro(total)}</div>
-    </div>
-
-    <table>
-      <tr><td>Demontage / Montagearbeiten / Installation im Bad</td><td>${euro(b.install)}</td></tr>
-      <tr><td>Fliesenarbeiten / Fliesen im Bad</td><td>${euro(b.tiles)}</td></tr>
-      <tr><td>Malerarbeiten im Bad</td><td>${euro(b.paint)}</td></tr>
-      <tr><td>Elektroarbeiten im Bad</td><td>${euro(b.elec)}</td></tr>
-      <tr><td>Ausstattung im Bad</td><td>${euro(b.equip)}</td></tr>
-    </table>
-
-    <p class="small" style="margin-top:12px">
-      Keine Preisgarantie. Die Berechnung dient als Orientierung und ersetzt keine Vor-Ort-Besichtigung.
-    </p>
-  </div>
-
-  <script>window.print();<\/script>
-</body>
-</html>
-      `.trim();
-
-      const w = window.open("", "_blank", "noopener,noreferrer,width=980,height=800");
-      w.document.open();
-      w.document.write(html);
-      w.document.close();
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
 
     // =========================
     // Init
