@@ -56,18 +56,16 @@
       position:relative;
     }
 
-    /* HEADER (vollflächig, Logo groß, Hintergrundlogo sichtbar) */
+    /* HEADER */
     .hero{
       position:relative;
       padding:22px 26px 18px 26px;
       background:
         linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55)),
-        /* HIER DEIN HINTERGRUNDLOGO / HEADER-BILD EINTRAGEN */
         url("osion-header.png") center 18% / cover no-repeat;
       border-bottom: 1px solid rgba(255,255,255,.10);
-      min-height: 150px; /* sorgt dafür, dass das Hintergrundlogo komplett sichtbar wird */
+      min-height: 150px;
     }
-    /* Falls dein Bild anders heißt (z.B. MD085.png), dann ersetze oben osion-header.png durch MD085.png */
 
     .brandRow{
       display:flex;
@@ -90,8 +88,8 @@
     }
 
     .brandBadge img{
-      width:72px;   /* Logo ~3x größer */
-      height:72px;  /* Logo ~3x größer */
+      width:72px;
+      height:72px;
       border-radius: 14px;
       background: rgba(255,255,255,.08);
       border: 1px solid rgba(255,255,255,.16);
@@ -237,15 +235,8 @@
       display:grid;
       gap:14px;
     }
-
-    /* Standard: 2 Spalten */
-    .grid.cols-2{
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    /* 3 Spalten (KVP: Qualität + Dusche/Wanne nebeneinander) */
-    .grid.cols-3{
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    .grid.cols-2{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.cols-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
     @media (max-width: 980px){
       .grid.cols-3{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -288,7 +279,6 @@
       box-shadow: var(--accentGlow);
     }
 
-    /* KVP: keine Redundanz – wir zeigen nur eine Zeile (keine zweite Zeile mehr nötig) */
     .optText{
       display:flex;
       align-items:baseline;
@@ -303,19 +293,7 @@
       line-height:1.1;
       white-space:nowrap;
     }
-    .optMain.small{
-      font-size:17px;
-    }
-    .optUnit{
-      font-size:18px;
-      font-weight:850;
-      color: rgba(255,255,255,.96);
-      line-height:1.1;
-      white-space:nowrap;
-      opacity:.95;
-    }
 
-    /* Pfeil */
     .chev{
       width:40px;height:40px;
       border-radius:999px;
@@ -440,6 +418,87 @@
       color: rgba(255,255,255,.62);
     }
     a{ color: rgba(255,255,255,.92); }
+
+    /* ===== AREA CUSTOM (Slider-Block) ===== */
+    .customBox{
+      margin-top:14px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(700px 220px at 10% 30%, rgba(107,44,255,.14), transparent 58%),
+        radial-gradient(700px 220px at 90% 40%, rgba(179,0,60,.12), transparent 58%),
+        rgba(0,0,0,.18);
+      padding:14px 14px;
+    }
+
+    .customTitleRow{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .customTitle{
+      font-size:16px;
+      font-weight:900;
+      margin:0;
+    }
+    .customLive{
+      font-size:14px;
+      font-weight:900;
+      margin:0;
+      color: rgba(255,255,255,.92);
+      white-space:nowrap;
+    }
+    .sliders{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    @media (max-width: 980px){
+      .sliders{ grid-template-columns: 1fr; }
+    }
+    .sItem{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding:12px 12px;
+    }
+    .sLabel{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:13px;
+      color: rgba(255,255,255,.82);
+      font-weight:850;
+      margin-bottom:8px;
+    }
+    .sValue{
+      color: rgba(255,255,255,.95);
+      font-weight:950;
+      white-space:nowrap;
+    }
+    input[type="range"]{
+      width:100%;
+      accent-color: var(--accent2);
+    }
+    .applyRow{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:12px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .miniHint{
+      font-size:12px;
+      color: rgba(255,255,255,.72);
+      margin:10px 0 0 0;
+      line-height:1.35;
+    }
   </style>
 </head>
 
@@ -450,8 +509,6 @@
       <header class="hero">
         <div class="brandRow">
           <div class="brandBadge">
-            <!-- LOGO-DATEI: Wenn du die Datei umbenennst, passe den src an.
-                 Aktuell ist es URL-encoded (Leerzeichen -> %20). -->
             <img src="MGU-0015%20Logo%20OSION%20Solution%20XR.png" alt="OSION Solution XR" />
             <div class="brandText">
               <div class="kicker">Powered by OSION Solution XR</div>
@@ -471,7 +528,7 @@
             <div class="progressBar" aria-hidden="true">
               <div class="progressFill" id="progressFill"></div>
             </div>
-            <div class="stepLabel" id="stepLabel">Schritt 1 von 8</div>
+            <div class="stepLabel" id="stepLabel">Schritt 1 von …</div>
           </div>
         </div>
       </header>
@@ -489,6 +546,57 @@
           <div class="panelBody">
             <div class="grid cols-2" id="options"></div>
 
+            <!-- Custom-Block: nur im Flächen-Schritt sichtbar -->
+            <div id="areaCustomWrap" style="display:none;">
+              <div class="customBox">
+                <div class="customTitleRow">
+                  <p class="customTitle">Individuell</p>
+                  <p class="customLive" id="areaLive">–</p>
+                </div>
+
+                <p class="hint" style="margin:0; color:rgba(255,255,255,.78);">
+                  Wenn Sie die exakten Maße kennen, können Sie Länge, Breite und Höhe einstellen.
+                </p>
+
+                <div class="sliders">
+                  <div class="sItem">
+                    <div class="sLabel">
+                      <span>Länge</span>
+                      <span class="sValue" id="lenVal">3.0 m</span>
+                    </div>
+                    <input id="lenRange" type="range" min="1.0" max="6.0" step="0.1" value="3.0" />
+                  </div>
+
+                  <div class="sItem">
+                    <div class="sLabel">
+                      <span>Breite</span>
+                      <span class="sValue" id="widVal">2.0 m</span>
+                    </div>
+                    <input id="widRange" type="range" min="1.0" max="5.0" step="0.1" value="2.0" />
+                  </div>
+
+                  <div class="sItem">
+                    <div class="sLabel">
+                      <span>Höhe</span>
+                      <span class="sValue" id="heiVal">2.4 m</span>
+                    </div>
+                    <input id="heiRange" type="range" min="2.0" max="3.2" step="0.1" value="2.4" />
+                  </div>
+                </div>
+
+                <div class="applyRow">
+                  <button class="btn btnPrimary" type="button" id="applyAreaBtn">
+                    Maße übernehmen
+                    <span aria-hidden="true">→</span>
+                  </button>
+                </div>
+
+                <p class="miniHint">
+                  Hinweis: Die Grundfläche (qm) beeinflusst die Berechnung deutlich. Die Raumhöhe wird zusätzlich als Faktor für Wandarbeiten berücksichtigt.
+                </p>
+              </div>
+            </div>
+
             <div id="result" style="display:none; margin-top:16px;">
               <div class="resultBox">
                 <div class="resultHead">
@@ -497,7 +605,7 @@
                 </div>
 
                 <p class="hint" style="margin:0 0 8px 0; color:rgba(255,255,255,.78);">
-                  Für die gewünschte Badausstattung kannst du ungefähr folgende Kosten einplanen. In der Regel setzt sich der Gesamtpreis für ein neues Badezimmer zu einem Drittel aus Material- und zu zwei Dritteln aus den Arbeitskosten zusammen.
+                  Für die gewünschte Badausstattung können Sie ungefähr folgende Kosten einplanen. In der Regel setzt sich der Gesamtpreis für ein neues Badezimmer zu einem Drittel aus Material- und zu zwei Dritteln aus den Arbeitskosten zusammen.
                 </p>
 
                 <table class="table" aria-label="Kostenaufteilung">
@@ -567,23 +675,23 @@
 
   <script>
     // =========================
-    // 1) Daten / Schritte (8)
+    // 1) Daten / Schritte
     // =========================
     const steps = [
       {
         id: "ownership",
         question: "Sind Sie Eigentümer oder Mieter?",
-        hint: "Bitte wähle eine Option.",
+        hint: "Bitte wählen Sie eine Option.",
         grid: "cols-2",
         options: [
           { value: "owner", label: "Eigentümer", score: 0.00 },
-          { value: "renter", label: "Mieter", score: 0.08 } // leicht höher wegen Abstimmungs-/Aufwand
+          { value: "renter", label: "Mieter", score: 0.08 }
         ]
       },
       {
         id: "projectType",
         question: "Planen Sie eine Badezimmersanierung oder einen Neubau?",
-        hint: "Bitte wähle eine Option.",
+        hint: "Bitte wählen Sie eine Option.",
         grid: "cols-2",
         options: [
           { value: "renovation", label: "Sanierung", score: 0.00 },
@@ -592,11 +700,10 @@
       },
       {
         id: "persons",
-        question: "Wieviele Personen leben im Haushalt?",
-        hint: "Bitte wähle eine Option.",
+        question: "Wie viele Personen leben im Haushalt?",
+        hint: "Bitte wählen Sie eine Option.",
         grid: "cols-2",
         options: [
-          // KVP: Zahlen weiß, daneben Person/Personen, keine zweite Zeile
           { value: 1, label: "1 Person", score: 0.00 },
           { value: 2, label: "2 Personen", score: 0.08 },
           { value: 3, label: "3 Personen", score: 0.14 },
@@ -606,8 +713,8 @@
       {
         id: "quality",
         question: "In welcher Qualität soll Ihr Bad ausgestattet werden?",
-        hint: "Bitte wähle eine Option.",
-        grid: "cols-3", // KVP: 3 Buttons nebeneinander
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
         options: [
           { value: "basic", label: "Basic", score: 0.00 },
           { value: "comfort", label: "Komfort", score: 0.22 },
@@ -615,69 +722,145 @@
         ]
       },
       {
+        // Presets + optional individuelle Maße (Slider)
         id: "area",
         question: "Wie groß ist die Grundfläche Ihres Bades?",
-        hint: "Bitte wähle eine Option.",
-        grid: "cols-2",
+        hint: "Wählen Sie eine Größe oder nutzen Sie die individuellen Maße.",
+        grid: "cols-3",
         options: [
-          // KVP: Zahlen weiß, qm daneben, keine zweite Zeile
-          { value: "4-5", label: "4–5 qm", score: 0.00 },
-          { value: "5-7", label: "5–7 qm", score: 0.12 },
-          { value: "7-10", label: "7–10 qm", score: 0.22 },
-          { value: ">10", label: "> 10 qm", score: 0.32 }
+          // Presets: Quick-Select (auto weiter)
+          { value: "small",  label: "Klein (ca. 5 qm)",  scoreNorm: 0.12, add: 0, dims: { area: 5.0, height: 2.4 } },
+          { value: "mid",    label: "Mittel (ca. 8 qm)", scoreNorm: 0.44, add: 0, dims: { area: 8.0, height: 2.4 } },
+          { value: "large",  label: "Groß (ca. 13 qm)",  scoreNorm: 1.00, add: 0, dims: { area: 13.0, height: 2.4 } }
         ]
       },
       {
         id: "showerBath",
         question: "Möchten Sie Ihr Badezimmer mit einer Dusche und/oder einer Badewanne ausstatten?",
-        hint: "Bitte wähle eine Option.",
-        grid: "cols-3", // KVP: 3 Buttons nebeneinander
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
         options: [
           { value: "shower", label: "Dusche", score: 0.00 },
           { value: "bath", label: "Badewanne", score: 0.10 },
           { value: "both", label: "Dusche und Badewanne", score: 0.18 }
         ]
       },
+
+      // ===== Erweiterungen (wie besprochen) =====
+      {
+        id: "floor",
+        question: "Welcher Bodenbelag ist geplant?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
+        options: [
+          { value: "tile",  label: "Fliese",    score: 0.20, add: 1200 },
+          { value: "vinyl", label: "Vinyl",     score: 0.10, add: 650  },
+          { value: "wood",  label: "Holzoptik", score: 0.16, add: 900  }
+        ]
+      },
+      {
+        id: "walls",
+        question: "Wie sollen die Wände ausgeführt werden?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
+        options: [
+          { value: "paint",    label: "Gestrichen",    score: 0.05, add: 250  },
+          { value: "partTile", label: "Teil gefliest", score: 0.18, add: 1300 },
+          { value: "fullTile", label: "Gefliest",      score: 0.28, add: 2400 }
+        ]
+      },
+      {
+        id: "wcType",
+        question: "Welcher WC-Typ ist geplant?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-2",
+        options: [
+          { value: "standard", label: "WC",       score: 0.10, add: 450  },
+          { value: "showerwc", label: "Dusch-WC", score: 0.28, add: 2100 }
+        ]
+      },
+      {
+        id: "washplace",
+        question: "Welche Waschplatz-Lösung ist geplant?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
+        options: [
+          { value: "small",  label: "Handwaschbecken",  score: 0.06, add: 350  },
+          { value: "single", label: "Waschtisch",       score: 0.14, add: 950  },
+          { value: "double", label: "Doppelwaschtisch", score: 0.26, add: 1850 }
+        ]
+      },
+      {
+        id: "heating",
+        question: "Welche Heizlösung ist geplant?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
+        options: [
+          { value: "radiator", label: "Heizkörper",      score: 0.10, add: 550  },
+          { value: "ufh",      label: "Fußbodenheizung", score: 0.26, add: 2400 },
+          { value: "both",     label: "Beides",          score: 0.30, add: 2900 }
+        ]
+      },
+      {
+        id: "lighting",
+        question: "Welche Beleuchtung ist geplant?",
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
+        options: [
+          { value: "ceiling", label: "Deckenlicht",     score: 0.08, add: 250  },
+          { value: "spots",   label: "LED-Spots",       score: 0.16, add: 650  },
+          { value: "ambient", label: "Ambient + Spots", score: 0.22, add: 1100 }
+        ]
+      },
+
       {
         id: "timing",
         question: "Zeitpunkt der Ausführung?",
-        hint: "Bitte wähle eine Option.",
-        grid: "cols-3", // 3 nebeneinander (auf kleineren Screens responsive)
+        hint: "Bitte wählen Sie eine Option.",
+        grid: "cols-3",
         options: [
-          // KVP: Zahlen weiß, Text gleich groß, keine Redundanz
           { value: "1-3", label: "1–3 Monate", score: 0.26 },
           { value: "3-6", label: "3–6 Monate", score: 0.14 },
           { value: "later", label: "Später", score: 0.00 }
         ]
       },
+
+      // Ergebnis
       {
         id: "result",
         question: "Preisinformation",
         hint: "Hier sehen Sie das Ergebnis.",
         grid: "cols-2",
-        options: [] // wird nicht angezeigt
+        options: []
       }
     ];
 
     // =========================
-    // 2) Preislogik (fixe Min/Max wie von dir geprüft)
+    // 2) Preislogik
     // =========================
-    const PRICE_MIN = 15664.54;  // Eigentümer, Sanierung, 1 Person, Basic, 4-5 qm, Dusche, Später
-    const PRICE_MAX = 39032.94;  // Eigentümer, Neubau, 4 Personen, Luxus, >10 qm, Dusche+Wanne, 1-3 Monate
+    const PRICE_MIN = 15664.54;
+    const PRICE_MAX = 39032.94;
 
-    // Gewichtung: 7 Variablen in Summe -> 0..1
-    // (Die scores je Option sind bereits 0..~0.4, wir normalisieren über eine Gewichtung)
+    // Gewichte (Score-Teil). Add-ons kommen zusätzlich drauf.
     const weights = {
-      ownership:   0.07,
-      projectType: 0.16,
-      persons:     0.12,
-      quality:     0.26,
-      area:        0.20,
-      showerBath:  0.09,
-      timing:      0.10
+      ownership:   0.06,
+      projectType: 0.14,
+      persons:     0.09,
+      quality:     0.20,
+      area:        0.18,
+      showerBath:  0.06,
+
+      floor:       0.06,
+      walls:       0.08,
+      wcType:      0.05,
+      washplace:   0.06,
+      heating:     0.04,
+      lighting:    0.02,
+
+      timing:      0.06
     };
 
-    // Split für Kostenaufteilung (Summe = 1.00)
+    // Kostenaufteilung (Summe = 1.00)
     const split = {
       install: 0.23,
       tiles:   0.16,
@@ -686,12 +869,17 @@
       equip:   0.46
     };
 
+    // Fläche-Normierung für Slider
+    const AREA_MIN = 4.0;   // qm
+    const AREA_MAX = 13.0;  // qm
+    const HEIGHT_REF = 2.4; // m (Referenzhöhe für Wandarbeiten)
+
     // =========================
     // 3) State / UI
     // =========================
     const state = {
       stepIndex: 0,
-      answers: {} // stepId -> option
+      answers: {}
     };
 
     const elQuestion = document.getElementById("question");
@@ -713,33 +901,79 @@
     const elMailBtn = document.getElementById("mailBtn");
     const elDownloadBtn = document.getElementById("downloadBtn");
 
+    // Area custom UI
+    const elAreaCustomWrap = document.getElementById("areaCustomWrap");
+    const elLen = document.getElementById("lenRange");
+    const elWid = document.getElementById("widRange");
+    const elHei = document.getElementById("heiRange");
+    const elLenVal = document.getElementById("lenVal");
+    const elWidVal = document.getElementById("widVal");
+    const elHeiVal = document.getElementById("heiVal");
+    const elAreaLive = document.getElementById("areaLive");
+    const elApplyAreaBtn = document.getElementById("applyAreaBtn");
+
     function euro(n){
       return new Intl.NumberFormat("de-DE", { style:"currency", currency:"EUR" }).format(n);
     }
-
     function clamp01(x){ return Math.min(1, Math.max(0, x)); }
 
+    function to1(n){ return Math.round(n * 10) / 10; }
+    function to2(n){ return Math.round(n * 100) / 100; }
+
+    function areaNormFromQm(qm){
+      const norm = (qm - AREA_MIN) / (AREA_MAX - AREA_MIN);
+      return clamp01(norm);
+    }
+
+    function getAreaHeightFactor(){
+      const a = state.answers.area;
+      const h = a?.dims?.height ?? HEIGHT_REF;
+      return Math.max(0.85, Math.min(1.35, h / HEIGHT_REF));
+    }
+
     function computeTotal(){
-      // Weighted score 0..1 (wir clampen)
       let s = 0;
+      let addons = 0;
+
+      const heightFactor = getAreaHeightFactor();
 
       for (const step of steps){
-        if (!weights[step.id]) continue;
         const ans = state.answers[step.id];
         if (!ans) continue;
 
+        // Add-ons (Euro) – Wandarbeiten skalieren mit Raumhöhe
+        if (typeof ans.add === "number"){
+          if (step.id === "walls"){
+            addons += ans.add * heightFactor;
+          } else {
+            addons += ans.add;
+          }
+        }
+
+        // Score-Teil
+        if (!weights[step.id]) continue;
         const w = weights[step.id];
-        // ans.score ist 0..(ca. 0.42). Für eine saubere Normalisierung:
-        // Wir definieren pro Step: min=0, max = maxScoreInStep, und skalieren.
-        const maxScore = Math.max(...step.options.map(o => o.score));
-        const norm = maxScore === 0 ? 0 : (ans.score / maxScore);
-        s += w * norm;
+
+        // area: nutzt scoreNorm (Preset oder Slider)
+        if (step.id === "area"){
+          const norm = typeof ans.scoreNorm === "number" ? ans.scoreNorm : 0;
+          s += w * clamp01(norm);
+          continue;
+        }
+
+        const maxScore = (step.options && step.options.length)
+          ? Math.max(...step.options.map(o => o.score ?? 0))
+          : 0;
+
+        const norm = maxScore === 0 ? 0 : ((ans.score ?? 0) / maxScore);
+        s += w * clamp01(norm);
       }
 
       s = clamp01(s);
 
-      const total = PRICE_MIN + s * (PRICE_MAX - PRICE_MIN);
-      // 2 Nachkommastellen fest
+      const base = PRICE_MIN + s * (PRICE_MAX - PRICE_MIN);
+      const total = base + addons;
+
       return Math.round(total * 100) / 100;
     }
 
@@ -750,7 +984,6 @@
       const elec    = total * split.elec;
       const equip   = total * split.equip;
 
-      // Rundung so, dass Summe exakt passt
       const rounded = {
         install: Math.round(install * 100) / 100,
         tiles:   Math.round(tiles   * 100) / 100,
@@ -766,8 +999,9 @@
 
     function setProgress(){
       const current = state.stepIndex + 1;
-      const totalSteps = 8;
+      const totalSteps = steps.length;
       const pct = ((current - 1) / (totalSteps - 1)) * 100;
+
       elProgress.style.width = pct + "%";
       elStepLabel.textContent = `Schritt ${current} von ${totalSteps}`;
       elMetaRight.textContent = `Schritt ${current} von ${totalSteps}`;
@@ -785,11 +1019,13 @@
       elOptions.innerHTML = "";
       elResultWrap.style.display = "none";
 
+      // Area custom UI: nur im Flächen-Schritt
+      elAreaCustomWrap.style.display = (step.id === "area") ? "block" : "none";
+
       // Back-Button
       elBack.disabled = state.stepIndex === 0;
 
       if (step.id === "result"){
-        // Ergebnis anzeigen
         const total = computeTotal();
         const b = breakdown(total);
 
@@ -800,36 +1036,29 @@
         elCElec.textContent = euro(b.elec);
         elCEquip.textContent = euro(b.equip);
 
-        // Mailto vorbereiten
         const summary = buildSummary(total);
         const subject = encodeURIComponent("Bad-Budgetrechner – Anfrage");
         const body = encodeURIComponent(summary);
         elMailBtn.href = `mailto:?subject=${subject}&body=${body}`;
 
-        // Download: erzeugt eine druckbare Ansicht (Browser -> als PDF speichern)
-        elDownloadBtn.onclick = () => {
-          openPrintView(total, b);
-        };
+        elDownloadBtn.onclick = () => { openPrintView(total, b); };
 
         elResultWrap.style.display = "block";
         return;
       }
 
-      // Optionen rendern
+      // Optionen rendern (Auto-Weiter per Klick)
       step.options.forEach((opt) => {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "opt";
         btn.setAttribute("aria-selected", "false");
 
-        // KVP: Textformat ohne Redundanz
         const text = document.createElement("div");
         text.className = "optText";
 
         const main = document.createElement("div");
         main.className = "optMain";
-
-        // KVP-Anpassungen: Personen / qm / Timing -> alles in einer Zeile, Zahlen weiß
         main.textContent = opt.label;
 
         text.appendChild(main);
@@ -845,15 +1074,31 @@
         btn.appendChild(text);
         btn.appendChild(chev);
 
-        // Auto-Weiter (kein Weiter-Button nötig)
         btn.addEventListener("click", () => {
+          // area presets speichern inkl. dims (qm + Höhe)
+          if (step.id === "area"){
+            state.answers[step.id] = {
+              value: opt.value,
+              label: opt.label,
+              scoreNorm: opt.scoreNorm ?? 0,
+              add: opt.add ?? 0,
+              dims: opt.dims ?? { area: null, height: HEIGHT_REF }
+            };
+            goNext();
+            return;
+          }
+
           state.answers[step.id] = opt;
-          // direkt weiter
           goNext();
         });
 
         elOptions.appendChild(btn);
       });
+
+      // Falls area: Live-Update der Slider anzeigen (ohne Auto-Weiter)
+      if (step.id === "area"){
+        updateAreaLive();
+      }
     }
 
     function goNext(){
@@ -872,8 +1117,53 @@
 
     elBack.addEventListener("click", goBack);
 
+    // ===== Area Slider Logic =====
+    function updateAreaLive(){
+      const L = parseFloat(elLen.value);
+      const W = parseFloat(elWid.value);
+      const H = parseFloat(elHei.value);
+
+      elLenVal.textContent = `${to1(L)} m`;
+      elWidVal.textContent = `${to1(W)} m`;
+      elHeiVal.textContent = `${to1(H)} m`;
+
+      const qm = to2(L * W);
+      const norm = areaNormFromQm(qm);
+
+      elAreaLive.textContent = `Grundfläche: ${qm.toFixed(2)} qm · Höhe: ${to1(H)} m`;
+      // Optional: Du könntest hier noch eine Mini-Vorschau der Norm anzeigen, wenn gewünscht.
+      return { L, W, H, qm, norm };
+    }
+
+    ["input","change"].forEach(evt => {
+      elLen.addEventListener(evt, updateAreaLive);
+      elWid.addEventListener(evt, updateAreaLive);
+      elHei.addEventListener(evt, updateAreaLive);
+    });
+
+    elApplyAreaBtn.addEventListener("click", () => {
+      // Übernimmt Slider-Werte als Area-Antwort und geht weiter
+      const { L, W, H, qm, norm } = updateAreaLive();
+
+      state.answers.area = {
+        value: "custom",
+        label: `Individuell (${qm.toFixed(2)} qm)`,
+        scoreNorm: norm,
+        add: 0,
+        dims: { length: to1(L), width: to1(W), height: to1(H), area: qm }
+      };
+
+      goNext();
+    });
+
     function buildSummary(total){
       const pick = (id) => state.answers[id]?.label ?? "—";
+
+      const area = state.answers.area;
+      let areaLine = pick("area");
+      if (area?.value === "custom" && area?.dims){
+        areaLine = `Individuell: ${area.dims.area.toFixed(2)} qm (${area.dims.length.toFixed(1)} m × ${area.dims.width.toFixed(1)} m), Höhe ${area.dims.height.toFixed(1)} m`;
+      }
 
       return [
         "Auswahl (unverbindlich):",
@@ -882,8 +1172,14 @@
         `• Sanierung / Neubau: ${pick("projectType")}`,
         `• Personen im Haushalt: ${pick("persons")}`,
         `• Qualität: ${pick("quality")}`,
-        `• Grundfläche: ${pick("area")}`,
+        `• Grundfläche: ${areaLine}`,
         `• Dusche / Badewanne: ${pick("showerBath")}`,
+        `• Bodenbelag: ${pick("floor")}`,
+        `• Wände: ${pick("walls")}`,
+        `• WC: ${pick("wcType")}`,
+        `• Waschplatz: ${pick("washplace")}`,
+        `• Heizung: ${pick("heating")}`,
+        `• Beleuchtung: ${pick("lighting")}`,
         `• Zeitpunkt: ${pick("timing")}`,
         "",
         `Summe Total (inkl. MwSt.): ${euro(total)}`,
@@ -894,6 +1190,12 @@
 
     function openPrintView(total, b){
       const pick = (id) => state.answers[id]?.label ?? "—";
+
+      const area = state.answers.area;
+      let areaLine = pick("area");
+      if (area?.value === "custom" && area?.dims){
+        areaLine = `Individuell: ${area.dims.area.toFixed(2)} qm (${area.dims.length.toFixed(1)} m × ${area.dims.width.toFixed(1)} m), Höhe ${area.dims.height.toFixed(1)} m`;
+      }
 
       const html = `
 <!doctype html>
@@ -925,8 +1227,14 @@
       • Sanierung / Neubau: ${escapeHtml(pick("projectType"))}<br/>
       • Personen im Haushalt: ${escapeHtml(pick("persons"))}<br/>
       • Qualität: ${escapeHtml(pick("quality"))}<br/>
-      • Grundfläche: ${escapeHtml(pick("area"))}<br/>
+      • Grundfläche: ${escapeHtml(areaLine)}<br/>
       • Dusche / Badewanne: ${escapeHtml(pick("showerBath"))}<br/>
+      • Bodenbelag: ${escapeHtml(pick("floor"))}<br/>
+      • Wände: ${escapeHtml(pick("walls"))}<br/>
+      • WC: ${escapeHtml(pick("wcType"))}<br/>
+      • Waschplatz: ${escapeHtml(pick("washplace"))}<br/>
+      • Heizung: ${escapeHtml(pick("heating"))}<br/>
+      • Beleuchtung: ${escapeHtml(pick("lighting"))}<br/>
       • Zeitpunkt: ${escapeHtml(pick("timing"))}
     </div>
   </div>
